@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Recipe Database</title>
+        <!--link rel="stylesheet" href="home.css"></-->
+        <!-- jQuery library
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+
+            .nav-link.active {
+                background-color: #403e3e;
+                color: #fff !important;
+                padding: 0rem 0.5rem;
+                border-radius: 3px;
+                font-weight: bold;
+            }
+            .navbar {
+                padding-top: 5px;
+                padding-bottom: 5px;
+
+            }
+            .navbar-nav .nav-item .nav-link {
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 6px;
+            }
+
+            .navbar-brand .navbar-toggler {
+                padding-top: 0px;
+                padding-bottom: 20px;
+            }
+            
+            .navbar {
+                border-bottom: 2px solid #000; /* Adjust thickness and color */
+            }
+              
+            
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class='container-fluid'>
+                <a class='navbar-brand' href="/">The CookingBase</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                    
+
+                <div class="collapse navbar-collapse" id='navbarSupportedContent'>
+                    <ul class='navbar-nav dropdownMenu'>
+                        <li class='nav-item'>
+                            <a class='nav-link active' aria-current='page' href='#'> Home</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' href='/view'> View</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' href='/create'> Create</a>
+                        </li>                        
+                        <li class='nav-item'>
+                            <a class='nav-link' href='/edit'> Edit</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class='nav-link' href='/delete'> Delete</a>
+                        </li>    
+                        
+                    </ul>
+                    <!--Fpr when accounts are added
+                    <ul class='nav navbar-nav navbar-right'>
+                        <li><a href='#'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
+                        <li><a href='#'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+                    </ul>
+                    -->
+
+                </div>
+            </div>
+        </nav>
+        <div class='container'>
+            <br>
+            <h2>Welcome to the Recipe Database, {{ username }}! Please select one of the following options</h2>
+            <br><br>
+            <form action="/", method="POST" class='d-flex'>
+                <!--<div class='btn-group-vertical role-group' aria-label='Vertical button group'>-->
+                    <button class='btn btn-dark flex-fill mx-1' name="pageName" value="View">View</button>
+                    <button class='btn btn-secondary flex-fill mx-1' name="pageName" value="Create">Create</button>
+                    <button class='btn btn-dark flex-fill mx-1' name="pageName" value="Edit">Edit</button>
+                    <button class='btn btn-secondary flex-fill mx-1' name="pageName" value="Delete">Delete</button>
+                
+            </form>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>
