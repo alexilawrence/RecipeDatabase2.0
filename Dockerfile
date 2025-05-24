@@ -14,4 +14,4 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt
 COPY . .
 
 # Run app.py when the container launches
-ENTRYPOINT ["python", "recipeDBMain.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "recipeDBMain:app"]
