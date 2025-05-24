@@ -7,6 +7,8 @@
             <h1 style="font-size: 3rem;">{{ recipeName }}</h1>
             <p><strong>Tags:</strong> {{ tags | join(', ') }}</p>
             <br>
+            <a href="{{ url_for('copyRecipe', recipeID=recipeID, recipeName=recipeName) }}" class="btn btn-dark">Copy recipe</a>
+            <br><br>
             <h3>Description: </h3>
             <p>{{ desc }}</p>
             <br>
@@ -26,7 +28,6 @@
             <li>{{ tip }}</li>
             {% endfor %}
             </ul>
-            <br>
-            <p>Recipe visibility is currently set as: <strong>{{ vis }}</strong></p>
         </div>
 {% endblock %}
+    

@@ -1,93 +1,248 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Recipes List</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
+{% extends "base.html" %}
 
-            .nav-link.active {
-                background-color: #403e3e;
-                color: #fff !important;
-                padding: 0rem 0.5rem;
-                border-radius: 3px;
-                font-weight: bold;
-            }
-            .navbar {
-                padding-top: 5px;
-                padding-bottom: 5px;
+{% block title %}View{% endblock %}
 
-            }
-            .navbar-nav .nav-item .nav-link {
-                padding-top: 5px;
-                padding-bottom: 5px;
-                padding-left: 6px;
-            }
-
-            .navbar-brand .navbar-toggler {
-                padding-top: 0px;
-                padding-bottom: 20px;
-            }
-            
-            .navbar {
-                border-bottom: 2px solid #000; /* Adjust thickness and color */
-            }
-              
-            
-
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class='container-fluid'>
-                <a class='navbar-brand' href="/">The CookingBase</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
-                </button>
-                    
-
-                <div class="collapse navbar-collapse" id='navbarSupportedContent'>
-                    <ul class='navbar-nav dropdownMenu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/''> Home</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link active' aria-current='page'  href='#'> View</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/create'> Create</a>
-                        </li>                        
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/edit'> Edit</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/delete'> Delete</a>
-                        </li>    
-                        
-                    </ul>
-                    <!--Fpr when accounts are added
-                    <ul class='nav navbar-nav navbar-right'>
-                        <li><a href='#'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
-                        <li><a href='#'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
-                    </ul>
-                    -->
-
-                </div>
-            </div>
-        </nav>
-        <br>
+{% block extra_styles %}
+        <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static', filename='styles.css') }}" rel="'stylesheet">
+{% endblock %}
+{% block content %}        
         <div class='container'>
             <h2>Select the recipe you would like to view!</h2>
+
+            <!-- Tag filter input-->
+            <p>Filter Recipes:</p>
+            <input id="tagFilter" name="tagFilter" class="form-control mb-3" placeholder="Filters">
+            <br>
+            <button class='tags--removeAllBtn' type='button'>Remove all these tags ⬆</button>
+
+            <br><br>
+            
             <form method="POST" action="/view">
-                {% for name in names %}
-                    <p><button class='btn btn-outline-dark' type="radio" name="recipe" value="{{ name }}">{{ name }}</button></p>
-                {% endfor %}
+                <div id='recipeList'>
+                    {% for name in names %}
+                        <p><button class='btn btn-outline-dark' type="radio" name="recipe" value="{{ name }}">{{ name }}</button></p>
+                    {% endfor %}
+                </div>
                 
+            </form>
         </div>
-        </form>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
-</html>
+
+{% endblock %}
+{% block extra_scripts %}
+        <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+        <script>
+            var inputElm = document.querySelector('#tagFilter');
+            whitelist = [
+                    "Vegan",
+                    "Vegetarian",
+                    "Gluten-Free",
+                    "Non-Dairy",
+                    "Keto",
+                    "Nut-Free",
+                    "Appetizer",
+                    "Main Course",
+                    "Dessert",
+                    "Snack",
+                    "Breakfast",
+                    "Lunch",
+                    "Dinner",
+                    "Quick",
+                    "Halal",
+                    "Beginner",
+                    "Intermediate",
+                    "Advanced",
+                    "Spicy",
+                    "Healthy",
+                    "Chicken",
+                    "Beef",
+                    "Lamb",
+                    "Pork",
+                    "Fish",
+                    "Pasta",
+                    "Italian",
+                    "Korean",
+                    "Indian",
+                    "Mediterranean",
+                    "Mexican",
+                    "Chinese",
+                    "SE Asia",
+                    "Japanese",
+                    "French",
+                    "Western",
+                    "African",
+                    "Festive"
+
+                ]
+
+            //init tagify
+            var tagify = new Tagify(inputElm, {
+                enforceWhitelist: true,
+                whitelist: inputElm.value.trim().split(/\s*,\s*/),
+                maxTags: 5,
+                dropdown : {
+                    classname   :"tags-look",
+                    enabled     : 0,
+                    maxItems    : 10,
+                    position    : "text",
+                    closeOnSelect : true,
+                }
+            })
+
+            //remove all tags button
+            document.querySelector('.tags--removeAllBtn')
+                .addEventListener('click', tagify.removeAllTags.bind(tagify))
+            
+            //chainable event listeners
+            tagify.on('add', onAddTag)
+                  .on('remove', onRemoveTag)
+                  .on('input', onInput)
+                  .on('edit', onTagEdit)
+                  .on('invalid', onInvalidTag)
+                  .on('click', onTagClick)
+                  .on('focus', onTagifyFocusBlur)
+                  .on('blur', onTagifyFocusBlur)
+                  .on('dropdown:hide dropdown:show', e => console.log(e.type))
+                  .on('dropdown:select', onDropdownSelect)
+
+            var mockAjax = (function mockAjax(){
+                var timeout;
+                return function(duration){
+                    clearTimeout(timeout); // abort last request
+                    return new Promise(function(resolve, reject){
+                        timeout = setTimeout(resolve, duration || 700, whitelist)
+                    })
+                }
+            })()
+
+            // tag add callback
+            function onAddTag(e) {
+                console.log("onAddTag: ", e.detail);
+                console.log("original input value: ", inputElm.value)
+                tagify.off('add', onAddTag)
+                const tags = tagify.value.map(tag => tag.value);
+                fetch('/filter-recipes', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ tags })
+                        })
+                        .then(res => res.text())
+                        .then(html => {
+                            document.querySelector('#recipeList').innerHTML = html;
+                        });
+            }
+
+            // tag remvoed callback
+            function onRemoveTag(e){
+                console.log("onRemoveTag:", e.detail, "tagify instance value:", tagify.value)
+                const tags = tagify.value.map(tag => tag.value); // same fix
+                fetch('/filter-recipes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tags })
+                })
+                .then(res => res.text())
+                .then(html => {
+                    document.querySelector('#recipeList').innerHTML = html;
+                });
+            }
+
+            // on character(s) added/removed (user is typing/deleting)
+            function onInput(e){
+                console.log("onInput: ", e.detail);
+                tagify.whitelist = null; // reset current whitelist
+                tagify.loading(true) // show the loader animation
+
+                // get new whitelist from a delayed mocked request (Promise)
+                mockAjax()
+                    .then(function(result){
+                        tagify.settings.whitelist = result.concat(tagify.value) // add already-existing tags to the new whitelist array
+
+                        tagify
+                            .loading(false)
+                            // render the suggestions dropdown.
+                            .dropdown.show(e.detail.value);
+                    })
+                    .catch(err => tagify.dropdown.hide())
+            }
+
+            function onTagEdit(e){
+                console.log("onTagEdit: ", e.detail);
+            }
+
+            // invalid tag added callback
+            function onInvalidTag(e){
+                console.log("onInvalidTag: ", e.detail);
+            }
+
+            // invalid tag added callback
+            function onTagClick(e){
+                console.log(e.detail);
+                console.log("onTagClick: ", e.detail);
+            }
+
+            function onTagifyFocusBlur(e){
+                console.log(e.type, "event fired")
+            }
+
+            function onDropdownSelect(e){
+                console.log("onDropdownSelect: ", e.detail)
+            }
+        </script>
+{% endblock %}
+
+<!-- old change function
+
+fetch('/static/tags.json')
+                .then(res => res.text())
+                .then(tagList => {
+                    var tagify = new Tagify(inputElm, {
+                        whitelist: tagList,
+                        enforceWhitelist: true,
+                        dropdown: { 
+                            enabled: 1,
+                            maxItems: 10,
+                            position: 'auto'
+                        },
+                        maxtags: 10
+                    });
+
+                    input.tagify = tagify; // Store the tagify instance on the input
+
+                    function updateFilter() {
+                        const tags = tagify.value.map(t => t.value);
+                        console.log("Triggering filter with tags:", tags); // ✅ Debug
+                        fetch('/filter-recipes', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ tags })
+                        })
+                        .then(res => res.text())
+                        .then(html => {
+                            document.querySelector('#recipeList').innerHTML = html;
+                        });
+                    }
+
+                    // ✅ Only trigger when a tag is fully added or removed
+                    tagify.on('add', updateFilter);
+                    tagify.on('remove', updateFilter);
+
+                    tagify.on('add', e => console.log('Added tag:', e.detail.data.value));
+                    tagify.on('remove', e => console.log('Removed tag:', e.detail.data.value));
+                    tagify.on('input', e => console.log('Input event:', e.detail.value));
+                    tagify.on('change', e => console.log('Change event:', e.detail.value));
+                });
+
+ tagify.on('change', function () {
+                    const tags = tagify.value.map(t => t.value);
+                    fetch('/filter-recipes', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ tags })
+                    })
+                    .then(res => res.text())
+                    .then(html => {
+                        document.querySelector('#recipeList').innerHTML = html;
+                    });
+                });
+-->

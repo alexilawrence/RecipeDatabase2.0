@@ -1,0 +1,5 @@
+{% for name in names %}
+    <p><button class='btn btn-outline-dark' type="radio" name="recipe" value="{{ name }}">{{ name }}</button></p>
+{% else %}
+    <p>No recipes match the selected tags.</p>
+{% endfor %}

@@ -1,85 +1,15 @@
-<!doctype html>
-<html>
-    <head>
-        <title>Add a Recipe</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
 
-            .nav-link.active {
-                background-color: #403e3e;
-                color: #fff !important;
-                padding: 0rem 0.5rem;
-                border-radius: 3px;
-                font-weight: bold;
-            }
-            .navbar {
-                padding-top: 5px;
-                padding-bottom: 5px;
+{% extends "base.html" %}
 
-            }
-            .navbar-nav .nav-item .nav-link {
-                padding-top: 5px;
-                padding-bottom: 5px;
-                padding-left: 6px;
-            }
+{% block title %}Create{% endblock %}
 
-            .navbar-brand .navbar-toggler {
-                padding-top: 0px;
-                padding-bottom: 20px;
-            }
-            
-            .navbar {
-                border-bottom: 2px solid #000; /* Adjust thickness and color */
-            }
-              
-            
+{% block extra_styles %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css">
+{% endblock %}
 
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-            <div class='container-fluid'>
-                <a class='navbar-brand' href="/">The CookingBase</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="bi bi-list"></i>
-                </button>
-                    
-
-                <div class="collapse navbar-collapse" id='navbarSupportedContent'>
-                    <ul class='navbar-nav dropdownMenu'>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/'> Home</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/view'> View</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link active' aria-current='page' href='#'> Create</a>
-                        </li>                        
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/edit'> Edit</a>
-                        </li>
-                        <li class='nav-item'>
-                            <a class='nav-link' href='/delete'> Delete</a>
-                        </li>    
-                        
-                    </ul>
-                    <!--Fpr when accounts are added
-                    <ul class='nav navbar-nav navbar-right'>
-                        <li><a href='#'><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
-                        <li><a href='#'><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
-                    </ul>
-                    -->
-
-                </div>
-            </div>
-        </nav>
+{% block content %}
     <div class='container'>
-        <br>
+
         <h2>Add a new recipe down below!</h2>
         
         <form action='/create' method="POST">
@@ -87,6 +17,11 @@
             <div class='form-group pb-2'>
                 <label for='recipeName'>Recipe Name:</label>
                 <input class='form-control input-sm' type='text' name ='recipeName' required>
+            </div>
+
+            <div class='form-group pb-2'>
+                <label for='desc'>Description:</label>
+                <textarea class='form-control input-sm' type='text' name ='desc' required></textarea>
             </div>
                 
             <div class='form-group pb-2'>
@@ -106,12 +41,54 @@
                 <textarea class='form-control input-sm' name='tips' rows='5'></textarea>
                 <span class='form-text'>Start each new tip on a new line. Don't number them.</span>
             </div>
-          
-                <button class='btn btn-primary' type="submit">Submit</button>
+
+            <div class='form-group pb-2'>
+                <label for='tags'>Tag your recipe:</label>
+                <input class='form-control input-sm' id='tags' name='tags' placeholder='          '>
+                <span class='form-text'>Add tags like Dessert, Italian, Quick etc. Contact support if you want more tag options! Please try to stick to the tags given.</span>
+            </div>
+
+            <br>
+            <div class="form-group pb-2">
+                <label>Select recipe visibility</label><br>
+                <span class='form-text'>Setting the recipe type as "public" makes it visible on the community page.</span>
+                <br><br>
+                <input type="radio" class="btn-check" name="vis" id="public" autocomplete="off" checked>
+                <label class="btn btn-outline-secondary" for="public">Public</label>
+                <input type="radio" class="btn-check" name="vis" id="private" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="private">Private</label>
+            </div>
+                <br><br>
+
+                <button class='btn btn-dark' type="submit">Submit</button>
         
         </form>
-    </div> 
+    </div>
     <br><br>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
-    </body>
-</html>
+{% endblock %}
+
+{% block extra_scripts %} 
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script>
+        const input = document.querySelector('input[name=tags]');
+
+        // Load tag options
+        fetch('/static/tags.json')
+            .then(response => response.json())
+            .then(tagList => {
+                //init tagify w loaded tag list
+                new Tagify(input, {
+                    whitelist: tagList,
+                    dropdown: {
+                        enabled: 1,
+                        maxItems: 10,
+                        position: 'auto'
+                    },
+                    maxtags: 10
+                });
+            })
+            .catch(err => {
+                console.error("Failed to load tag list:", err);
+            });
+    </script>
+{% endblock %}

@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+    <head>
+        <title>{% block title %} Recipe Database {% endblock %}</title>
+        <!--link rel="stylesheet" href="home.css"></-->
+        <!-- jQuery library
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block extra_styles %}
+
+        {% endblock %}
+        <style>
+
+            .nav-link.active {
+                background-color: #403e3e;
+                color: #fff !important;
+                padding: 0rem 0.5rem;
+                border-radius: 3px;
+                font-weight: bold;
+            }
+            .navbar {
+                padding-top: 5px;
+                padding-bottom: 5px;
+
+            }
+            .navbar-nav .nav-item .nav-link {
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-left: 6px;
+            }
+
+            .navbar-brand .navbar-toggler {
+                padding-top: 0px;
+                padding-bottom: 20px;
+            }
+            
+            .navbar {
+                border-bottom: 2px solid #000; /* Adjust thickness and color */
+            }
+              
+            
+
+        </style>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class='container-fluid'>
+                <a class='navbar-brand' href="/">The CookingBase</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="bi bi-list"></i>
+                </button>
+                    
+
+                <div class="collapse navbar-collapse" id='navbarSupportedContent'>
+                    <ul class='navbar-nav dropdownMenu'>
+                        <li class='nav-item'>
+                            <a class="nav-link {% if current_page == 'home' %}active{% endif %}" 
+                            {% if current_page == 'home' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/" {% endif %}> Home</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class="nav-link {% if current_page == 'view' %}active{% endif %}" 
+                            {% if current_page == 'view' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/view" {% endif %}> View</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class="nav-link {% if current_page == 'create' %}active{% endif %}" 
+                            {% if current_page == 'create' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/create" {% endif %}> Create</a>
+                        </li>                        
+                        <li class='nav-item'>
+                            <a class="nav-link {% if current_page == 'edit' %}active{% endif %}" 
+                            {% if current_page == 'edit' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/edit" {% endif %}> Edit</a>
+                        </li>
+                        <li class='nav-item'>
+                            <a class="nav-link {% if current_page == 'delete' %}active{% endif %}" 
+                            {% if current_page == 'delete' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/delete" {% endif %}> Delete</a>
+                        </li>    
+                        <li class="nav-item">
+                            <a class="nav-link {% if current_page == 'community' %}active{% endif %}" 
+                            {% if current_page == 'community' %} 
+                            aria-current="page" href="#" 
+                            {% else %} href="/community" {% endif %}> Community</a>
+                        </li>
+                        
+                    </ul>
+                    <!-- Doesnt make sense to have this since you need an account to access the page
+                    <ul class='nav navbar-nav navbar-right'>
+                        <li><a href="{{ url_for('signup') }}"><span class='glyphicon glyphicon-user'></span> Sign Up</a></li>
+                        <li><a href="{{ url_for('login') }}"><span class='glyphicon glyphicon-log-in'></span> Login</a></li>
+                    </ul>
+                    -->
+
+                </div>
+            </div>
+        </nav>
+        <br>
+        {% block content %} {% endblock %}
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        {% block extra_scripts %} {% endblock %}
+    </body>
+</html>
