@@ -2,7 +2,7 @@
 FROM python:3.12-alpine
 
 # Set the working directory to /app
-WORKDIR /app
+WORKDIR /RecipeDatabase2.0
 
 # copy the requirements file used for dependencies
 COPY requirements.txt .
